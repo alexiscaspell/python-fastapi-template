@@ -1,7 +1,7 @@
 from app.model.user import User
 from app.model.exception import UserNotFoundException
 
-ALL_USERS=[User.from_dict({"name":"pepe","phone":"1234","age":42,"id":"1"}),User.from_dict({"id":"2","name":"yisus","age":32,"mail":"yisus.christ@gmail.com"})]
+ALL_USERS=[User.from_dict({"name":"pepe","phone":"1234","age":42,"id":"1"}),User.from_dict({"id":"2","name":"yisus","age":32,"mail":"yisus.christ@gmail.com","dni":{"number":"0"}})]
 
 def get_all_users():
     global ALL_USERS

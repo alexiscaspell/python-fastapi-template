@@ -2,6 +2,7 @@ from copy import deepcopy,copy
 from enum import Enum
 from stringcase import snakecase,camelcase
 import datetime
+from pydantic import BaseModel
 
 class Case(Enum):
     camel = "camel"
@@ -51,18 +52,16 @@ def model_metadata(args):
     return decorate
 
 
-class AppModel(object):
-    __model_metadata__ = {}
+class AppModel(BaseModel):
 
     def __new__(cls, *args,**kwargs):
-        for attr in args:
-            if hasattr(attr, '__model_metadata__'):
-                AppModel.__model_metadata__ = attr.__model_metadata__
         return super().__new__(cls)
 
     def to_dict(self,case=Case.snake):
 
-        self_dict = copy(self.__dict__)
+        # self_dict = copy(self.__dict__)
+        # BaseModel function
+        self_dict = self.dict()
 
         for key, value in self.__dict__.items():
             
@@ -110,10 +109,10 @@ class AppModel(object):
 
         new_dict = copy(some_dict)
 
-        for arg in cls.__model_metadata__:
-            if arg in some_dict:
-                new_dict.update({arg: cls._format_parameter(
-                    some_dict[arg], cls.__model_metadata__[arg])})
+        # for arg in cls.__fields__:
+        #     if arg in some_dict:
+        #         new_dict.update({arg: cls._format_parameter(
+        #             some_dict[arg], cls.__model_metadata__[arg])})
 
         try:
             return cls(**new_dict)
